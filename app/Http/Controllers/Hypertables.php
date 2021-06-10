@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Hypertables extends Controller
 {
@@ -14,6 +15,7 @@ class Hypertables extends Controller
     // getTables function will return data of exsisting tables in your Database
     // You can use this data to select the tables that will be used for your hypertable frontend to perform CURD actions
     public function getTables() {
-
+        $tables = array_map('reset', \DB::select('SHOW TABLES'));
+        echo json_encode($tables);
     }
 }
