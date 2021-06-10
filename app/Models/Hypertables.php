@@ -12,6 +12,6 @@ class Hypertables extends Model
     //You can easily incoporate HyperTable PHP with your existing Larvel project by copying Hypertables model and Hypertable controller to your project directories
     //See the GitHub repo for more information https://github.com/rukshn/hypertables
     use HasFactory;
-    private $table = 'hypertables';
-    private $primary_key = 'id';
+    protected $table = 'hypertables';
+    protected $primaryKey = 'id';
 }
