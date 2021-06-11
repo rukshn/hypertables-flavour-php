@@ -13,11 +13,11 @@ class CreateHypertablescentralTable extends Migration
      */
     public function up()
     {
-        Schema::create('hypertablescentral', function (Blueprint $table) {
+        Schema::create('ht_central', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('hyper_table_name', 255);
-            $table->text('hyper_table_description');
+            $table->text('hyper_table_description')->nullable();
             $table->string('table_name', 255);
         });
     }
@@ -29,6 +29,6 @@ class CreateHypertablescentralTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hypertablescentral');
+        Schema::dropIfExists('ht_central');
     }
 }
