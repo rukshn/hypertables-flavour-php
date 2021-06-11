@@ -57,6 +57,7 @@ DB_PASSWORD= MYSQL PASSWORD
 ```bash
   php artisan migrate
 ```
+
 Having trouble running the migration? Please reffer the [Wiki](https://github.com/rukshn/hypertables-flavour-php/wiki/Common-issues)
 
 *This will create a table called hypertables in your database, this table is mandetory for HyperTables*
@@ -68,6 +69,9 @@ Having trouble running the migration? Please reffer the [Wiki](https://github.co
 ```
 
 This will run your HyperTables php backend at **localhost:8000**. Navigate to localhost:8000 to see if your backend is running smoothly.
+
+If you want to run the HyperTables Flavour PHP on a shared hosting, then rename the `htaccess_example` file to `.htaccess` and you will be able to run the server by simply visiting the hosted URL
+
 ## Contributing
 
 Contributions are always welcome!
