@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class HTCentralModel extends Model
 {
     use HasFactory;
-    protected $table = 'hypertablescentral';
+    protected $table = 'ht_central';
     protected $primaryKey = 'id';
 }
