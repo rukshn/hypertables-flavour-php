@@ -28,6 +28,46 @@ Please refer the Wiki for more information.
 Please see the HyperTables repo at https://github.com/rukshn/hypertables
 
 
+## Setup
+
+To deploy this project run
+
+**Clone the hypertables-flavour-php to your local machine or server**
+
+```bash
+  git clone
+```
+**Go to your hypertables-flavour-php directory**
+```bash
+  cd hypertables-flavour-php
+```
+
+**Edit the .env files and add database connection variables**
+
+```vim
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE= ADD YOUR DATABASE NAME
+DB_USERNAME= MYSQL USERNAME
+DB_PASSWORD= MYSQL PASSWORD
+```
+**Run the migration**
+
+```bash
+  php artisan migrate
+```
+Having trouble running the migration? Please reffer the [Wiki](https://github.com/rukshn/hypertables-flavour-php/wiki/Common-issues)
+
+*This will create a table called hypertables in your database, this table is mandetory for HyperTables*
+
+**Run your larvel server**
+
+```vim
+  php artisan serve
+```
+
+This will run your HyperTables php backend at **localhost:8000**. Navigate to localhost:8000 to see if your backend is running smoothly.
 ## Contributing
 
 Contributions are always welcome!
