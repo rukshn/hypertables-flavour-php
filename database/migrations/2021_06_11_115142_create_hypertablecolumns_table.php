@@ -21,6 +21,7 @@ class CreateHypertablecolumnsTable extends Migration
             $table->string('hyper_column_type', 255);
             $table->string('hyper_column_icon', 255);
             $table->string('table_column_name', 255);
+            $table->json('hyper_column_default_values');
         });
     }
 
