@@ -16,7 +16,7 @@ class CreateHypertablecolumnsTable extends Migration
         Schema::create('hypertablecolumns', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integetr('table_id');
+            $table->integer('table_id');
             $table->string('hyper_column_name', 255);
             $table->string('hyper_column_type', 255);
             $table->string('hyper_column_icon', 255);
