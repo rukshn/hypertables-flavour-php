@@ -16,12 +16,13 @@ class HypertablesController extends Controller
     // You can use this data to select the tables that will be used for your hypertable frontend to perform CURD actions
     public function getTables() {
         $tables = array_map('reset', \DB::select('SHOW TABLES'));
-        echo json_encode($tables);
+        return json_encode($tables);
     }
 
     // getTableStructure function will send the structure of a given table to the HyperTable frontend
     // You can use the output of the function to select the columns that will be used for your HyperTables frontend
     public function getTableStructure(Request $request) {
-        echo $request->table;
+        $table = $request->table;
+        return DB::getSchemaBuilder()->getColumnListing($table);
     }
 }
