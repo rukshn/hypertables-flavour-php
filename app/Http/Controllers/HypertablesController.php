@@ -37,7 +37,7 @@ class HypertablesController extends Controller
         $hyper_table_description = $request->hyper_table_description;
 
         // check if the table is already mapped
-        $get_table = HpyertablescentralModel::select('id')->where('table_name', $table_name)->get();
+        $get_table = HypertablescentralModel::select('id')->where('table_name', $table_name)->get();
         if (isset($get_table)) {
             $output = array('status' => 500, 'message' => 'table alreay mapped');
             return json_encode($output);
