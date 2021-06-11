@@ -38,8 +38,8 @@ class HypertablesController extends Controller
 
         // check if the table is already mapped
         $get_table = HTCentralModel::select('id')->where('table_name', $table_name)->get();
-        if (isset($get_table)) {
-            $output = array('status' => 500, 'message' => 'table alreay mapped');
+        if (isset($get_table[0])) {
+            $output = array('status' => 500, 'message' => 'table already mapped');
             return json_encode($output);
         } else {
             $rules = [
