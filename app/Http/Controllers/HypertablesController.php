@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use App\Models\HypertablecolumnsModel;
-use App\Models\HypertablescentralModel;
+use App\Models\HTColumnsModel;
+use App\Models\HTCentralModel;
 
 class HypertablesController extends Controller
 {
@@ -37,7 +37,7 @@ class HypertablesController extends Controller
         $hyper_table_description = $request->hyper_table_description;
 
         // check if the table is already mapped
-        $get_table = HypertablescentralModel::select('id')->where('table_name', $table_name)->get();
+        $get_table = HTCentralModel::select('id')->where('table_name', $table_name)->get();
         if (isset($get_table)) {
             $output = array('status' => 500, 'message' => 'table alreay mapped');
             return json_encode($output);
@@ -54,7 +54,7 @@ class HypertablesController extends Controller
                 $output = array('status' => 500, 'message' => 'validation failure, please refer documentation');
                 return json_encode($output);
             } else {
-                $new_hyper_table = new HypertablescentralModel;
+                $new_hyper_table = new HTCentralModel;
                 $new_hyper_table->table_name = $table_name;
                 $new_hyper_table->hyper_table_description = $hyper_table_description;
                 $new_hyper_table->hyper_table_name = $hyper_table_name;
@@ -73,7 +73,7 @@ class HypertablesController extends Controller
         $hyper_column_type = $request->hyper_column_type;
         $hyper_column_icon = $request->hyper_column_icon;
 
-        $get_table = HypertablescentralModel::select('id')->where('table_name', $table_name)->get();
+        $get_table = HTCentralModel::select('id')->where('table_name', $table_name)->get();
         $table_id = $getTable[0]->id;
 
         if (!isset($table_id)) {
@@ -81,7 +81,7 @@ class HypertablesController extends Controller
             return json_encode($output);
         }
 
-        $get_hyper_column = HypertablecolumnsModel::select('table_column_name')->where('table_id', $table_id)->get();
+        $get_hyper_column = HTColumnsModel::select('table_column_name')->where('table_id', $table_id)->get();
 
         if (!isset($get_hyper_column->table_column_name)) {
             $rules = [
@@ -98,7 +98,7 @@ class HypertablesController extends Controller
                 $output = array('status' => 500, 'message' => 'input validation failed, please refer documentation');
                 return json_encode($output);
             } else {
-                $new_hyper_column = new HypertablecolumsModel;
+                $new_hyper_column = new HTColumnsModel;
                 $new_hyper_column->table_id = $table_id;
                 $new_hyper_column->hyper_column_name = $hyper_column_name;
                 $new_hyper_column->hyper_column_type = $hyper_column_type;
