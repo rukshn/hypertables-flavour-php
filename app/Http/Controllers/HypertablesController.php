@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Hypertables extends Controller
+class HypertablesController extends Controller
 {
     // This is the HyperTables controller, which will handle all the requests and return outputs
     // for the HyperTables UI
@@ -17,5 +17,11 @@ class Hypertables extends Controller
     public function getTables() {
         $tables = array_map('reset', \DB::select('SHOW TABLES'));
         echo json_encode($tables);
+    }
+
+    // getTableStructure function will send the structure of a given table to the HyperTable frontend
+    // You can use the output of the function to select the columns that will be used for your HyperTables frontend
+    public function getTableStructure(Request $request) {
+        echo $request->table;
     }
 }
