@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use App\Models\HypertablecolumnsModel;
+use App\Models\HypertablescentralModel;
 
 class HypertablesController extends Controller
 {
@@ -24,5 +27,92 @@ class HypertablesController extends Controller
     public function getTableStructure(Request $request) {
         $table = $request->table;
         return DB::getSchemaBuilder()->getColumnListing($table);
+    }
+
+    // createHyperTable will create a new HyperTable and map it to an existing table in your database
+    // The requires parameters are the name of the new hypertable that you're creating and the name of the exisiting table of your database
+    public function createHyperTable(Request $request){
+        $table_name = $request->table_name;
+        $hyper_table_name = $request->hyper_table_name;
+        $hyper_table_description = $request->hyper_table_description;
+
+        // check if the table is already mapped
+        $get_table = HpyertablescentralModel::select('id')->where('table_name', $table_name)->get();
+        if (isset($get_table)) {
+            $output = array('status' => 500, 'message' => 'table alreay mapped');
+            return json_encode($output);
+        } else {
+            $rules = [
+                'table_name' => 'required|string|min:1|max:255',
+                'hyper_table_name' => 'required|string|min:1|max:255',
+                'hyper_table_description' => 'string'
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                $output = array('status' => 500, 'message' => 'validation failure, please refer documentation');
+                return json_encode($output);
+            } else {
+                $new_hyper_table = new HypertablescentralModel;
+                $new_hyper_table->table_name = $table_name;
+                $new_hyper_table->hyper_table_description = $hyper_table_description;
+                $new_hyper_table->hyper_table_name = $hyper_table_name;
+
+                $new_hyper_table->save();
+                $output = array('status' => 200, 'insert_id' => $new_hyper_table->id);
+            }
+        }
+    }
+
+    // createHyperColumn will create a new HyperTable column on the hypertable table and map it to a column on the database
+    public function createHyperColumn(Request $request) {
+        $table_name = $request->table;
+        $table_column_name = $request->table_column;
+        $hyper_column_name = $request->hyper_column_name;
+        $hyper_column_type = $request->hyper_column_type;
+        $hyper_column_icon = $request->hyper_column_icon;
+
+        $get_table = HypertablescentralModel::select('id')->where('table_name', $table_name)->get();
+        $table_id = $getTable[0]->id;
+
+        if (!isset($table_id)) {
+            $output = array('status' => 500, 'message' => 'table does not exsist, please create a new table or map an existing table, please refer documentaion');
+            return json_encode($output);
+        }
+
+        $get_hyper_column = HypertablecolumnsModel::select('table_column_name')->where('table_id', $table_id)->get();
+
+        if (!isset($get_hyper_column->table_column_name)) {
+            $rules = [
+                'table' => 'required|string|min:1|max:255',
+                'tbale_column' => 'required|string|min:1|max:255',
+                'hyper_column_name' => 'required|string|min:1|max:255',
+                'hyper_column_type' => 'required|string|min:1|max:255',
+                'hyper_column_icon' => 'string|min:1|max:255'
+            ];
+
+            $validator = Validator::make($request->all(),$rules);
+
+            if ($validator->fails()) {
+                $output = array('status' => 500, 'message' => 'input validation failed, please refer documentation');
+                return json_encode($output);
+            } else {
+                $new_hyper_column = new HypertablecolumsModel;
+                $new_hyper_column->table_id = $table_id;
+                $new_hyper_column->hyper_column_name = $hyper_column_name;
+                $new_hyper_column->hyper_column_type = $hyper_column_type;
+                $new_hyper_column->hyper_column_icon = $hyper_column_icon;
+                $new_hyper_column->table_column_name = $table_column_name;
+
+                $new_hyper_column->save();
+                $output = array('status' => 200, 'isert_id' => $new_hyper_column->id);
+                return json_encode($output);
+            }
+
+        } else {
+            $output = array('status' => 500, 'message' => 'column exsists');
+            return json_encode($output);
+        }
     }
 }
