@@ -37,9 +37,17 @@ To deploy this project run
 ```bash
   git clone
 ```
+
 **Go to your hypertables-flavour-php directory**
+
 ```bash
   cd hypertables-flavour-php
+```
+
+**Install the dependencies using composer**
+
+```bash
+  composer install
 ```
 
 **Edit the .env files and add database connection variables**
