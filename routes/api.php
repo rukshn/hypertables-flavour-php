@@ -24,3 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/_ht/get-tables', [HypertablesController::class, 'getTables']);
 
 Route::get('/_ht/get-table-structure/{table}', [HypertablesController::class, 'getTableStructure']);
+
+Route::post('/_ht/create-hyper-table', [HypertablesController::class, 'createHyperTable']);
+
+Route::post('/_ht/create-hyper-column', [HypertablesController::class, 'createHyperColumn']);
