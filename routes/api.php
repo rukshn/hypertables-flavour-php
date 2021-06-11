@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Hypertables;
+use App\Http\Controllers\HypertablesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +15,12 @@ use App\Http\Controllers\Hypertables;
 |
 */
 
+// All the HyperTable api endpoints begin with _ht to not to clash with your exisiting API endpoints
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/get-tables', function(Hypertables $ht) {
-    return $ht->getTables();
-});
+Route::get('/_ht/get-tables', [HypertablesController::class, 'getTables']);
+
+Route::get('/_ht/get-table-structure/{table}', [HypertablesController::class, 'getTableStructure']);
