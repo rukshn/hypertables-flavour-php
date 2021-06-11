@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class HTColumnsModel extends Model
 {
     use HasFactory;
-    protected $table = 'hypertablecentral';
+    protected $table = 'ht_columns';
     protected $primaryKey = 'id';
 }
