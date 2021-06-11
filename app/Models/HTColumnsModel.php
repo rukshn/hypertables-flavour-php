@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HypertablesCentralModel extends Model
+class HTColumnsModel extends Model
 {
     use HasFactory;
-    protected $table = 'hypertablescentral';
+    protected $table = 'hypertablecentral';
     protected $primaryKey = 'id';
 }
