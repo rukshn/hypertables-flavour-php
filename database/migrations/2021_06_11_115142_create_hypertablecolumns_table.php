@@ -13,15 +13,15 @@ class CreateHypertablecolumnsTable extends Migration
      */
     public function up()
     {
-        Schema::create('hypertablecolumns', function (Blueprint $table) {
+        Schema::create('ht_columns', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->integer('table_id');
             $table->string('hyper_column_name', 255);
             $table->string('hyper_column_type', 255);
-            $table->string('hyper_column_icon', 255);
+            $table->string('hyper_column_icon', 255)->nullable();
             $table->string('table_column_name', 255);
-            $table->json('hyper_column_default_values');
+            $table->json('hyper_column_default_value')->nullable();
         });
     }
 
@@ -32,6 +32,6 @@ class CreateHypertablecolumnsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hypertablecolumns');
+        Schema::dropIfExists('ht_columns');
     }
 }
