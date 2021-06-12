@@ -115,4 +115,30 @@ class HypertablesController extends Controller
             return json_encode($output);
         }
     }
+
+    //getHyperTable this function will return the table structure of a requested HyperTable
+    public function getHyperTable(Request $request) {
+        $table_name = $request->table_name;
+
+        $rules = [
+            'table' => 'required|min:1|max:255'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $output = array('status' => 500, 'message' => 'validation failed, please refer documentation');
+            return json_encode($output);
+        } else {
+            $get_table = HTCentralModel::select('id')->where('table_name', $table_name)->get();
+            if (!isset($get_table[0])) {
+                $output = array('status' => 500, 'message' => 'table does not exist');
+                return json_encode($output);
+            } else {
+                $table_id = $get_table[0]->id;
+                $get_columns = HTColumnsModel::select('id', 'hyper_column_name', 'hyper_column_icon', 'hyper_column_type')->where('table_id', $table_id)->get();
+                return json_encode($get_columns);
+            }
+        }
+    }
 }
