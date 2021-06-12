@@ -144,7 +144,7 @@ class HypertablesController extends Controller
         $pagination = $request->pagination;
         $limit = $request->limit;
 
-        $get_table = HTCentralModel::select('id', 'table_name')->where('table_name', $table_name)->get();
+        $get_table = HTCentralModel::select('id', 'table_name', 'primary_key')->where('table_name', $table_name)->get();
 
         if (!isset($get_table[0])) {
             $output = array('status' => 500, 'message' => 'table does not exist');
@@ -209,5 +209,10 @@ class HypertablesController extends Controller
             $output = array('status' => 200, 'message' => 'columns updated');
             return json_encode($output);
         }
+    }
+
+    public function getColumnListing(Request $request) {
+        $table_name = $request->table_name;
+        return DB::getSchemaBuilder()->getColumnListing($table_name);
     }
 }
