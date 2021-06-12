@@ -131,4 +131,31 @@ class HypertablesController extends Controller
         }
 
     }
+
+    /*  getHyperTableData will retrun the data of a hyperTable
+    /   The parameters
+    /   table_name: name of the hypertable
+    /   limit: number of results per page
+    /   pagination: pagnigation
+    */
+
+    public function getHyperTableData(Request $request) {
+        $table_name = $request->table_name;
+        $pagination = $request->pagination;
+        $limit = $request->limit;
+
+        $get_table = HTCentralModel::select('id', 'table_name')->where('table_name', $table_name)->get();
+
+        if (!isset($get_table[0])) {
+            $output = array('status' => 500, 'message' => 'table does not exist');
+            return json_encode($output);
+        } else {
+            $table_name = $get_table[0]->table_name;
+            $table_id = $get_table[0]->id;
+
+            $column_names = HTColumnsModel::select('table_column_name')->where('table_id', $table_id)->get();
+            $get_table_data = DB::table($table_name)->select($column_names)->offset($limit*$pagination)->limit($limit)->get();
+            return json_encode($get_table_data);
+        }
+    }
 }
