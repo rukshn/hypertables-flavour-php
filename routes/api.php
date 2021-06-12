@@ -28,3 +28,5 @@ Route::get('/_ht/get-table-structure/{table}', [HypertablesController::class, 'g
 Route::post('/_ht/create-hyper-table', [HypertablesController::class, 'createHyperTable']);
 
 Route::post('/_ht/create-hyper-column', [HypertablesController::class, 'createHyperColumn']);
+
+Route::get('/_ht/get-hyper-table/{table}', [HypertablesController::class, 'getHyperTable']);
