@@ -185,8 +185,7 @@ class HypertablesController extends Controller
 
     public function renameHyperColumn(Request $request) {
         $table_name = $request->table_name;
-        $table_column_name = $request->old_table_column_name;
-        $old_column_name = $request->old_column_name;
+        $table_column_name = $request->table_column_name;
         $new_column_name = $request->new_column_name;
         $new_column_type = $request->new_column_type;
         $new_column_icon = $request->new_column_icon;
