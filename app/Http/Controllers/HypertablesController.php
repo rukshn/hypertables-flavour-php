@@ -75,19 +75,18 @@ class HypertablesController extends Controller
         $hyper_column_icon = $request->hyper_column_icon;
 
         $get_table = HTCentralModel::select('id')->where('table_name', $table_name)->get();
-        $table_id = $get_table[0]->id;
 
-        if (!isset($table_id)) {
+        if (!isset($get_table[0])) {
             $output = array('status' => 500, 'message' => 'table does not exsist, please create a new table or map an existing table, please refer documentaion');
             return json_encode($output);
         }
-
+        $table_id = $get_table[0]->id;
         $get_hyper_column = HTColumnsModel::select('table_column_name')->where('table_id', $table_id)->get();
 
         if (!isset($get_hyper_column->table_column_name)) {
             $rules = [
                 'table_name' => 'required|string|min:1|max:255',
-                'tbale_column' => 'required|string|min:1|max:255',
+                'table_column' => 'required|string|min:1|max:255',
                 'hyper_column_name' => 'required|string|min:1|max:255',
                 'hyper_column_type' => 'required|string|min:1|max:255',
                 'hyper_column_icon' => 'string'
