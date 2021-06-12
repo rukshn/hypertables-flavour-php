@@ -68,7 +68,7 @@ class HypertablesController extends Controller
 
     // createHyperColumn will create a new HyperTable column on the hypertable table and map it to a column on the database
     public function createHyperColumn(Request $request) {
-        $table_name = $request->table;
+        $table_name = $request->table_name;
         $table_column_name = $request->table_column;
         $hyper_column_name = $request->hyper_column_name;
         $hyper_column_type = $request->hyper_column_type;
@@ -86,11 +86,11 @@ class HypertablesController extends Controller
 
         if (!isset($get_hyper_column->table_column_name)) {
             $rules = [
-                'table' => 'required|string|min:1|max:255',
+                'table_name' => 'required|string|min:1|max:255',
                 'tbale_column' => 'required|string|min:1|max:255',
                 'hyper_column_name' => 'required|string|min:1|max:255',
                 'hyper_column_type' => 'required|string|min:1|max:255',
-                'hyper_column_icon' => 'string|min:1|max:255'
+                'hyper_column_icon' => 'string'
             ];
 
             $validator = Validator::make($request->all(),$rules);
