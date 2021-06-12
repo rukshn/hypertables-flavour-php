@@ -211,8 +211,4 @@ class HypertablesController extends Controller
         }
     }
 
-    public function getColumnListing(Request $request) {
-        $table_name = $request->table_name;
-        return DB::getSchemaBuilder()->getColumnListing($table_name);
-    }
 }
