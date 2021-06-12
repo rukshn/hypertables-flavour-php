@@ -121,7 +121,7 @@ class HypertablesController extends Controller
         $table_name = $request->table_name;
 
         $rules = [
-            'table' => 'required|min:1|max:255'
+            'table_name' => 'required|min:1|max:255'
         ];
 
         $validator = Validator::make($request->all(), $rules);
