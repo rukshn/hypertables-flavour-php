@@ -127,7 +127,7 @@ class HypertablesController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            $output = array('status' => 500, 'message' => 'validation failed, please refer documentation');
+            $output = array('status_code' => 500, 'status' => 'error', 'message' => 'validation failed, please refer documentation', 'validation_messages' => $validator->messages()->get('*'));
             return json_encode($output);
         } else {
             $get_table = HTCentralModel::select('id')->where('table_name', $table_name)->get();
