@@ -154,7 +154,15 @@ class HypertablesController extends Controller
             $table_id = $get_table[0]->id;
 
             $column_names = HTColumnsModel::select('table_column_name')->where('table_id', $table_id)->get();
-            $get_table_data = DB::table($table_name)->select($column_names)->offset($limit*$pagination)->limit($limit)->get();
+            $column_array = array();
+
+            foreach ($column_names as $temp_column) {
+                array_push($column_array, $temp_column->table_column_name);
+            }
+
+            $columns = implode(",", $column_array);
+
+            $get_table_data = DB::table($table_name)->select($columns)->offset($limit*$pagination)->limit($limit)->get();
             return json_encode($get_table_data);
         }
     }
