@@ -35,4 +35,4 @@ Route::get('/_ht/get-hyper-table-data/{table_name}/{pagination}/{limit}', [Hyper
 
 Route::post('/_ht/rename-hyper-column', [HypertablesController::class, 'renameHyperColumn']);
 
-Route::get('/_ht/column-listing', [HypertablesController::class, 'getColumnListing']);
+Route::get('/_ht/column-listing/{table_name}', [HypertablesController::class, 'getColumnListing']);
