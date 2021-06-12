@@ -26,7 +26,7 @@ class HypertablesController extends Controller
     // You can use the output of the function to select the columns that will be used for your HyperTables frontend
     public function getTableStructure(Request $request) {
         $table = $request->table;
-        return DB::getSchemaBuilder()->getColumnListing($table);
+        return json_encode(DB::select("describe $table"));
     }
 
     // createHyperTable will create a new HyperTable and map it to an existing table in your database
@@ -132,83 +132,11 @@ class HypertablesController extends Controller
 
     }
 
-    /*  getHyperTableData will retrun the data of a hyperTable
-    /   The parameters
-    /   table_name: name of the hypertable
-    /   limit: number of results per page
-    /   pagination: pagnigation
-    */
-
-    public function getHyperTableData(Request $request) {
+    // getTableData function will return data from the table, it will use paginate option in laravel db package and use page query string to paginate
+    // https://laravel.com/docs/8.x/pagination#paginating-query-builder-results
+    public function getTableData(Request $request) {
         $table_name = $request->table_name;
-        $pagination = $request->pagination;
         $limit = $request->limit;
-
-        $get_table = HTCentralModel::select('id', 'table_name', 'primary_key')->where('table_name', $table_name)->get();
-
-        if (!isset($get_table[0])) {
-            $output = array('status' => 500, 'message' => 'table does not exist');
-            return json_encode($output);
-        } else {
-            $table_name = $get_table[0]->table_name;
-            $table_id = $get_table[0]->id;
-
-            $column_names = HTColumnsModel::select('table_column_name')->where('table_id', $table_id)->get();
-            $column_array = array();
-
-            foreach ($column_names as $temp_column) {
-                array_push($column_array, $temp_column->table_column_name);
-            }
-
-            $columns = implode(",", $column_array);
-
-            $get_table_data = DB::table($table_name)->select($columns)->offset($limit*$pagination)->limit($limit)->get();
-            return json_encode($get_table_data);
-        }
+        return DB::table($table_name)->paginate($limit);
     }
-
-    public function createHyperTableData(Request $request) {
-
-    }
-
-    public function updateHyperTableData(Request $request) {
-
-    }
-
-    public function deleteHyperTableData(Request $request) {
-
-    }
-
-    // renameHyperColumn will rename a column name of a HyperTable
-    // You can rename only rename the HyperTable column name for the time being
-    // Ability to change the real table column name will be added in later update
-
-    public function renameHyperColumn(Request $request) {
-        $table_name = $request->table_name;
-        $table_column_name = $request->table_column_name;
-        $new_column_name = $request->new_column_name;
-        $new_column_type = $request->new_column_type;
-        $new_column_icon = $request->new_column_icon;
-
-        $column = HTColumnsModel::select('hyper_column_name', 'table_column_name' , 'hyper_column_type', 'hyper_column_icon')->where('tbale_name', $table_name)->where('table_column_name', $table_column_name)->get();
-        if (!isset(column[0])) {
-            $output = array('status' => 200, 'message' => 'column does not exsist');
-            return json_encode($output);
-        } else {
-            if (isset($new_column_name)) {
-                $column->hyper_column_name = $new_column_name;
-            }
-            if (isset($new_column_type)) {
-                $column->hyper_column_type = $new_column_type;
-            }
-            if (isset($new_column_icon)) {
-                $column->hyper_column_icon = $new_column_icon;
-            }
-            $column->save();
-
-            $output = array('status' => 200, 'message' => 'columns updated');
-            return json_encode($output);
-        }
-    }
-
 }
