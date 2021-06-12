@@ -61,6 +61,7 @@ class HypertablesController extends Controller
 
                 $new_hyper_table->save();
                 $output = array('status' => 200, 'insert_id' => $new_hyper_table->id);
+                return json_encode($output);
             }
         }
     }
@@ -74,7 +75,7 @@ class HypertablesController extends Controller
         $hyper_column_icon = $request->hyper_column_icon;
 
         $get_table = HTCentralModel::select('id')->where('table_name', $table_name)->get();
-        $table_id = $getTable[0]->id;
+        $table_id = $get_table[0]->id;
 
         if (!isset($table_id)) {
             $output = array('status' => 500, 'message' => 'table does not exsist, please create a new table or map an existing table, please refer documentaion');
