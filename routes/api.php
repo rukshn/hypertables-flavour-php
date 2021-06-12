@@ -32,3 +32,5 @@ Route::post('/_ht/create-hyper-column', [HypertablesController::class, 'createHy
 Route::get('/_ht/get-hyper-table/{table_name}', [HypertablesController::class, 'getHyperTable']);
 
 Route::get('/_ht/get-hyper-table-data/{table_name}/{pagination}/{limit}', [HypertablesController::class, 'getHyperTableData']);
+
+Route::post('/_ht/rename-hyper-column', [HypertablesController::class, 'renameHyperColumn']);

@@ -166,4 +166,49 @@ class HypertablesController extends Controller
             return json_encode($get_table_data);
         }
     }
+
+    public function createHyperTableData(Request $request) {
+
+    }
+
+    public function updateHyperTableData(Request $request) {
+
+    }
+
+    public function deleteHyperTableData(Request $request) {
+
+    }
+
+    // renameHyperColumn will rename a column name of a HyperTable
+    // You can rename only rename the HyperTable column name for the time being
+    // Ability to change the real table column name will be added in later update
+
+    public function renameHyperColumn(Request $request) {
+        $table_name = $request->table_name;
+        $table_column_name = $request->old_table_column_name;
+        $old_column_name = $request->old_column_name;
+        $new_column_name = $request->new_column_name;
+        $new_column_type = $request->new_column_type;
+        $new_column_icon = $request->new_column_icon;
+
+        $column = HTColumnsModel::select('hyper_column_name', 'table_column_name' , 'hyper_column_type', 'hyper_column_icon')->where('tbale_name', $table_name)->where('table_column_name', $table_column_name)->get();
+        if (!isset(column[0])) {
+            $output = array('status' => 200, 'message' => 'column does not exsist');
+            return json_encode($output);
+        } else {
+            if (isset($new_column_name)) {
+                $column->hyper_column_name = $new_column_name;
+            }
+            if (isset($new_column_type)) {
+                $column->hyper_column_type = $new_column_type;
+            }
+            if (isset($new_column_icon)) {
+                $column->hyper_column_icon = $new_column_icon;
+            }
+            $column->save();
+
+            $output = array('status' => 200, 'message' => 'columns updated');
+            return json_encode($output);
+        }
+    }
 }
