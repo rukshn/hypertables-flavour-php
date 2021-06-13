@@ -29,6 +29,30 @@ class HypertablesController extends Controller
         return json_encode(DB::select("describe $table"));
     }
 
+    // addTableColunm will add a nae column to a table
+    // This function is somwhat dangerous, but should be safe as long as you keep the key secret
+    // Because this is a raw query, read Laravel documentation on Raw queries
+    public function addColumn(Request $request) {
+        $table_name = $request->table_name;
+        $new_column = $request->new_column;
+        $new_column_type = $request->data_type;
+        $rules = [
+            'table_name' => 'required|string|min:1|max:255',
+            'new_column' => 'required|string|min:1|max:255',
+            'data_type' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $output = array('status' => 200, 'message' => 'parameter validation error');
+            return json_encode($output);
+        } else {
+            DB::raw("ALTER $table_name ADD COLUMN $new_column $new_column_type");
+            $output = array('status' => 200, 'message' => 'new column added');
+        }
+    }
+
     // createHyperTable will create a new HyperTable and map it to an existing table in your database
     // The requires parameters are the name of the new hypertable that you're creating and the name of the exisiting table of your database
     public function createHyperTable(Request $request){
@@ -139,4 +163,5 @@ class HypertablesController extends Controller
         $limit = $request->limit;
         return DB::table($table_name)->paginate($limit);
     }
+
 }
