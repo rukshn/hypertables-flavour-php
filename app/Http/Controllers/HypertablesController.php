@@ -32,14 +32,14 @@ class HypertablesController extends Controller
     // addTableColunm will add a nae column to a table
     // This function is somwhat dangerous, but should be safe as long as you keep the key secret
     // Because this is a raw query, read Laravel documentation on Raw queries
-    public function addColumn(Request $request) {
-        $table_name = $request->table_name;
-        $new_column = $request->new_column;
-        $new_column_type = $request->data_type;
+    public function createColumn(Request $request) {
+        $table_name = $request->tableName;
+        $new_column = $request->columnName;
+        $new_column_type = $request->dataType;
         $rules = [
-            'table_name' => 'required|string|min:1|max:255',
-            'new_column' => 'required|string|min:1|max:255',
-            'data_type' => 'required'
+            'tableName' => 'required|string|min:1|max:255',
+            'columnName' => 'required|string|min:1|max:255',
+            'dataType' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
