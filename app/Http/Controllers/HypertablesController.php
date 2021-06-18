@@ -50,6 +50,7 @@ class HypertablesController extends Controller
         } else {
             DB::raw("ALTER $table_name ADD COLUMN $new_column $new_column_type");
             $output = array('status' => 200, 'message' => 'new column added');
+            return json_encode($output);
         }
     }
 
