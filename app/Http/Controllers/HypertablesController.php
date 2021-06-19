@@ -34,7 +34,7 @@ class HypertablesController extends Controller
     // Because this is a raw query, read Laravel documentation on Raw queries
     public function createColumn(Request $request) {
         $table_name = $request->tableName;
-        $new_column = $request->columnName;
+        $new_column_name = $request->columnName;
         $new_column_type = $request->dataType;
         $rules = [
             'tableName' => 'required|string|min:1|max:255',
@@ -48,7 +48,7 @@ class HypertablesController extends Controller
             $output = array('status' => 200, 'message' => 'parameter validation error');
             return json_encode($output);
         } else {
-            DB::raw("ALTER $table_name ADD COLUMN $new_column $new_column_type");
+            DB::statement("ALTER $table_name ADD $new_column_name $new_column_type");
             $output = array('status' => 200, 'message' => 'new column added');
             return json_encode($output);
         }
