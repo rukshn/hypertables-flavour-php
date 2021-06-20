@@ -48,7 +48,7 @@ class HypertablesController extends Controller
             $output = array('status' => 200, 'message' => 'parameter validation error');
             return json_encode($output);
         } else {
-            DB::statement("ALTER TABLE $table_name ADD `$new_column_name`s $new_column_type");
+            DB::statement("ALTER TABLE $table_name ADD `$new_column_name` $new_column_type");
             $output = array('status' => 200, 'message' => 'new column added');
             return json_encode($output);
         }
