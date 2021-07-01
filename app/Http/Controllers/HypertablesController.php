@@ -54,6 +54,34 @@ class HypertablesController extends Controller
         }
     }
 
+
+    // createTable function will create a new Table in the database
+    // The required parameters are the table name and primary key
+    // The default primary key type is big-integer
+
+    public function createTable(Request $request) {
+        $rules = [
+            'tableName' => 'required|string|min:1|max:64',
+            'primaryKey' => 'required|string|min:1|max:64',
+            'autoIncrement' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) {
+            $output = array('status' => 500, 'message' => 'validation failure, please refer documentation');
+            return json_encode($output);
+        } else {
+            $query = "CREATE TABLE `$table_name` (`$primary_key` BIGINT NOT NULL, PRIMARY KEY(`$primary_key`));";
+            DB::statment($query);
+            if ($auto_increment) {
+                $query = DB::statement("ALTER TABLE `$table_name` MODIFY COLUMN `$primary_key` AUTO_INCREMENT");
+            }
+            $output = array('status' => 200, 'message' => 'table successfully created');
+            return json_encode($output);
+        }
+    }
+
     // createHyperTable will create a new HyperTable and map it to an existing table in your database
     // The requires parameters are the name of the new hypertable that you're creating and the name of the exisiting table of your database
     public function createHyperTable(Request $request){
