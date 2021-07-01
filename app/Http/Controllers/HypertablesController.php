@@ -48,7 +48,7 @@ class HypertablesController extends Controller
             $output = array('status' => 200, 'message' => 'parameter validation error');
             return json_encode($output);
         } else {
-            DB::statement("ALTER TABLE $table_name ADD `$new_column_name` $new_column_type");
+            DB::select(DB::raw("ALTER TABLE $table_name ADD COLUMN `$new_column_name` $new_column_type"));
             $output = array('status' => 200, 'message' => 'new column added');
             return json_encode($output);
         }
@@ -75,7 +75,7 @@ class HypertablesController extends Controller
             $table_name = $request->tableName;
             $primary_key = $request->primaryKey;
             $auto_increment = $request->autoIncrement;
-            $query = "CREATE TABLE `$table_name` (`$primary_key` BIGINT NOT NULL, PRIMARY KEY(`$primary_key`));";
+            $query = "CREATE TABLE IF NOT EXISTS `$table_name` (`$primary_key` BIGINT NOT NULL, PRIMARY KEY(`$primary_key`));";
 
             DB::select(DB::raw($query));
 
