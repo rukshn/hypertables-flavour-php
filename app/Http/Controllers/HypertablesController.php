@@ -72,10 +72,10 @@ class HypertablesController extends Controller
             $output = array('status' => 500, 'message' => 'validation failure, please refer documentation');
             return json_encode($output);
         } else {
-            $query = "CREATE TABLE `$table_name` (`$primary_key` BIGINT NOT NULL, PRIMARY KEY(`$primary_key`));";
+            $query = "CREATE TABLE `$tableName` (`$primaryKey` BIGINT NOT NULL, PRIMARY KEY(`$primaryKey`));";
             DB::statment($query);
-            if ($auto_increment) {
-                $query = DB::statement("ALTER TABLE `$table_name` MODIFY COLUMN `$primary_key` AUTO_INCREMENT");
+            if ($autoIncrement) {
+                $query = DB::statement("ALTER TABLE `$tableName` MODIFY COLUMN `$primaryKey` AUTO_INCREMENT");
             }
             $output = array('status' => 200, 'message' => 'table successfully created');
             return json_encode($output);
