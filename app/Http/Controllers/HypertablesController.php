@@ -77,10 +77,10 @@ class HypertablesController extends Controller
             $auto_increment = $request->autoIncrement;
             $query = "CREATE TABLE `$table_name` (`$primary_key` BIGINT NOT NULL, PRIMARY KEY(`$primary_key`));";
 
-            DB::raw($query);
+            DB::select(DB::raw($query))->get();
 
             if ($auto_increment) {
-                $query = DB::raw("ALTER TABLE `$table_name` MODIFY COLUMN `$primary_key` AUTO_INCREMENT");
+                $query = DB::select(DB::raw("ALTER TABLE `$table_name` MODIFY COLUMN `$primary_key` AUTO_INCREMENT"))->ge();
             }
             $output = array('status' => 200, 'message' => 'table successfully created');
             return json_encode($output);
