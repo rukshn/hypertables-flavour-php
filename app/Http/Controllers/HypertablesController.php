@@ -155,7 +155,7 @@ class HypertablesController extends Controller
     // The following function will run the create command
     public function create(Request $request) {
         $rules = [
-            'table_name' => 'required|string'
+            'tableName' => 'required|string|min:1|max:64'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -164,7 +164,7 @@ class HypertablesController extends Controller
             $output = array('status' => 500, 'validation failure, required parameters missing');
             return json_encode($output);
         } else {
-            $table_name = $request->table_name;
+            $table_name = $request->tableName;
             $output = DB::select(DB::raw("INSERT INTO `$table_name` VALUES ()"));
             return json_encode($output->get()->id);
         }
