@@ -40,3 +40,7 @@ Route::get('/_ht/get-table-data/{table_name}/{limit}', [HypertablesController::c
 Route::post('/_ht/create-column', [HypertablesController::class, 'createColumn']);
 
 Route::post('/_ht/create-table', [HypertablesController::class, 'createTable']);
+
+Route::post('/_ht/rename-column', [HypertablesController::class, 'renameColumn']);
+
+Route::post('/_ht/new-row', [HypertablesController::class, 'create']);
