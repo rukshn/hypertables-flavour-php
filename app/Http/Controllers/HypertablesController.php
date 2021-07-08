@@ -165,7 +165,7 @@ class HypertablesController extends Controller
             return json_encode($output);
         } else {
             $table_name = $request->tableName;
-            $output = DB::table($table_name)->insertGetId();
+            $output = DB::table($table_name)->insertGetId([]);
             return json_encode($output);
         }
     }
