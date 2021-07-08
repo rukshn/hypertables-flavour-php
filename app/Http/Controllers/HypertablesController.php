@@ -125,6 +125,51 @@ class HypertablesController extends Controller
         }
     }
 
+    // renames a given column to a different name
+    // this does not change the coulumn type, only changes column name
+    public function renameColumn(Request $request) {
+        $rules = [
+            'tableName' => 'required|string|min:1|max:64',
+            'oldName' => 'required|string|min:1|max:64',
+            'newName' => 'required|string|min:1|max:64'
+        ];
+
+        $validator = Validator::make($request->all());
+
+        if ($validator->fails()) {
+            $output = array('status' => 500, 'message' => 'required parameters are missing or failed validation');
+            return json_encode($output);
+        } else {
+            $table_name = $request->tableName;
+            $old_name = $request->oldName;
+            $new_name = $request->new_name;
+
+            DB::select(DB::raw("ALTER TABLE `$table_name` REANME COLUMN `$old_name` TO `$new_name`"));
+
+            $output = array('status' => 200, 'message' => 'table successfully renamed');
+            return json_encode($output);
+        }
+    }
+
+    // Create (running a create sql command)
+    // The following function will run the create command
+    public function create(Request $request) {
+        $rules = [
+            'table' => 'required|string'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $output = array('status' => 500, 'validation failure, required parameters missing');
+            return json_encode($output);
+        } else {
+            $table_name = $request->table_name;
+            $output = DB::select(DB::raw("INSERT INTO `$table_name` VALUES ()"));
+            return json_encode($output->get()->id);
+        }
+    }
+
     // createHyperColumn will create a new HyperTable column on the hypertable table and map it to a column on the database
     public function createHyperColumn(Request $request) {
         $table_name = $request->table_name;
