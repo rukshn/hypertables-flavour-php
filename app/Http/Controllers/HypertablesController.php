@@ -155,7 +155,7 @@ class HypertablesController extends Controller
     // The following function will run the create command
     public function create(Request $request) {
         $rules = [
-            'table' => 'required|string'
+            'table_name' => 'required|string'
         ];
 
         $validator = Validator::make($request->all(), $rules);
